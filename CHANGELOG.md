@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+- README: install and run envlint straight from GitHub (`github:AvukatHarvey/envlint`); the package is not published on npm.
+- Release workflow creates tags and GitHub Releases automatically from `CHANGELOG.md`.
+
 ## [0.1.1] - 2026-11-25
 
 ### Fixed

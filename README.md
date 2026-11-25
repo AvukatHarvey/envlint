@@ -9,7 +9,7 @@
 Every team has hit this: someone adds `STRIPE_SECRET` to the code, forgets to tell anyone, and the next deploy crashes. `envlint` is a tiny, **zero-dependency** CLI that compares your env file against its template and fails loudly when they drift apart.
 
 ```
-$ npx envlint
+$ npx github:AvukatHarvey/envlint
 Missing in .env (1):
   - STRIPE_SECRET
 Empty values (1):
@@ -24,19 +24,29 @@ Not in .env.example (1):
 - 🚦 CI-friendly exit codes (`0` ok, `1` problems, `2` usage/file error) and `--json` output
 - 🧾 `envlint init` generates `.env.example` from `.env` with all values stripped (comments kept)
 - 🧩 Understands real-world `.env` syntax: `export`, quotes, multi-line values, inline comments, CRLF
-- 📦 No dependencies, Node.js ≥ 18, usable as a library too
+- 📦 No dependencies, Node.js ≥ 18, works on Linux, macOS and Windows, usable as a library too
 
 ## Install
 
-```bash
-npm install --save-dev envlint
-```
-
-Or run it without installing:
+envlint is installed straight from GitHub (it is not published on npm):
 
 ```bash
-npx envlint
+npm install --save-dev github:AvukatHarvey/envlint
 ```
+
+Pin a release for reproducible installs:
+
+```bash
+npm install --save-dev github:AvukatHarvey/envlint#v0.1.1
+```
+
+Or run it once without installing:
+
+```bash
+npx github:AvukatHarvey/envlint
+```
+
+Once installed, the `envlint` command is available in npm scripts and via `npx envlint`.
 
 ## Usage
 
@@ -74,7 +84,7 @@ envlint init                             # create .env.example from .env
 ### In CI (GitHub Actions)
 
 ```yaml
-- run: npx envlint -e .env.ci --allow-extra
+- run: npx github:AvukatHarvey/envlint -e .env.ci --allow-extra
 ```
 
 ### As a library
@@ -94,7 +104,7 @@ Contributions are very welcome — see [CONTRIBUTING.md](CONTRIBUTING.md) and th
 
 ## Türkçe
 
-`envlint`, `.env` dosyanızı `.env.example` şablonuyla karşılaştıran, bağımlılıksız küçük bir komut satırı aracıdır. Eksik, boş, fazla ve tekrarlanan değişkenleri bulur; CI'da sorun varsa build'i durdurur. `envlint init` ile mevcut `.env` dosyanızdan değerleri silinmiş bir `.env.example` üretebilirsiniz. Katkılarınızı bekliyoruz — [CONTRIBUTING.md](CONTRIBUTING.md) dosyasına göz atın.
+`envlint`, `.env` dosyanızı `.env.example` şablonuyla karşılaştıran, bağımlılıksız küçük bir komut satırı aracıdır. Eksik, boş, fazla ve tekrarlanan değişkenleri bulur; CI'da sorun varsa build'i durdurur. `envlint init` ile mevcut `.env` dosyanızdan değerleri silinmiş bir `.env.example` üretebilirsiniz. Kurmak için: `npm install --save-dev github:AvukatHarvey/envlint`. Katkılarınızı bekliyoruz — [CONTRIBUTING.md](CONTRIBUTING.md) dosyasına göz atın.
 
 ## License
 

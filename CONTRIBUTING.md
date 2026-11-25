@@ -35,4 +35,4 @@ Looking for something to work on? Check [ROADMAP.md](ROADMAP.md) and issues labe
 
 1. Move the `[Unreleased]` entries in `CHANGELOG.md` under a new `## [x.y.z] - YYYY-MM-DD` heading and update the links at the bottom.
 2. Bump `"version"` in `package.json` to the same `x.y.z`.
-3. Push to `main`. The **Release** workflow tags the commit, creates the GitHub Release from the changelog and publishes to npm (when the `NPM_TOKEN` repository secret is set).
+3. Push to `main`. The **Release** workflow tags the commit and creates the GitHub Release from the changelog.

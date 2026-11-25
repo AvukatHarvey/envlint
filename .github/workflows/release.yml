@@ -1,10 +1,9 @@
 name: Release
 
 # Runs on every push to main. When package.json contains a version that has
-# no GitHub Release yet, it tags the commit, creates a Release from the
-# matching CHANGELOG.md section and (if the NPM_TOKEN secret is set)
-# publishes the package to npm with provenance. Safe to re-run: each step
-# is skipped when its work is already done.
+# no GitHub Release yet, it tags the commit and creates a Release from the
+# matching CHANGELOG.md section. Safe to re-run: it does nothing when the
+# release already exists.
 on:
   push:
     branches: [main]
@@ -12,7 +11,6 @@ on:
 
 permissions:
   contents: write
-  id-token: write
 
 concurrency: release
 
@@ -24,7 +22,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          registry-url: https://registry.npmjs.org
 
       - run: npm test
 
@@ -52,18 +49,3 @@ jobs:
           fi
           gh release create "v$V" --target "$GITHUB_SHA" --title "v$V" --notes-file notes.md
 
-      - name: Publish to npm
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          V: ${{ steps.v.outputs.version }}
-        run: |
-          if [ -z "$NODE_AUTH_TOKEN" ]; then
-            echo "::notice::NPM_TOKEN secret not set, skipping npm publish."
-            exit 0
-          fi
-          NAME=$(node -p "require('./package.json').name")
-          if npm view "$NAME@$V" version >/dev/null 2>&1; then
-            echo "$NAME@$V is already on npm, skipping."
-            exit 0
-          fi
-          npm publish --provenance --access public
