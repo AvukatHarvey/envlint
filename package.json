@@ -1,0 +1,15 @@
+{
+  "name": "envlint",
+  "version": "0.1.0",
+  "description": "Zero-dependency CLI to keep your .env in sync with .env.example — catch missing, empty and extra variables before they break production.",
+  "main": "src/index.js",
+  "bin": { "envlint": "bin/envlint.js" },
+  "files": ["bin", "src"],
+  "scripts": { "test": "node --test test/*.test.js" },
+  "engines": { "node": ">=18" },
+  "keywords": ["env", "dotenv", "env-example", "lint", "cli", "ci", "config", "validation"],
+  "repository": { "type": "git", "url": "git+https://github.com/AvukatHarvey/envlint.git" },
+  "bugs": { "url": "https://github.com/AvukatHarvey/envlint/issues" },
+  "homepage": "https://github.com/AvukatHarvey/envlint#readme",
+  "license": "MIT"
+}
