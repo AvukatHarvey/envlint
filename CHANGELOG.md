@@ -27,4 +27,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 [Unreleased]: https://github.com/AvukatHarvey/envlint/compare/v0.1.1...HEAD
 [0.1.1]: https://github.com/AvukatHarvey/envlint/compare/v0.1.0...v0.1.1
-[0.1.0]: https://github.com/AvukatHarvey/envlint/releases/tag/v0.1.0
+[0.1.0]: https://github.com/AvukatHarvey/envlint/commit/e5148df
