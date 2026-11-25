@@ -1,6 +1,6 @@
 {
   "name": "envlint",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Zero-dependency CLI to keep your .env in sync with .env.example — catch missing, empty and extra variables before they break production.",
   "main": "src/index.js",
   "bin": { "envlint": "bin/envlint.js" },

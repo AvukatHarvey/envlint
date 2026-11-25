@@ -27,6 +27,6 @@ test/            unit and CLI tests
 2. **No runtime dependencies.** Node.js ≥ 18 built-ins only.
 3. **Add tests** for every bug fix and feature.
 4. Keep the CLI output readable and the `--json` shape backwards compatible.
-5. Update `README.md` when you add or change an option.
+5. Update `README.md` when you add or change an option, and add a line under `[Unreleased]` in `CHANGELOG.md`.
 
 Looking for something to work on? Check [ROADMAP.md](ROADMAP.md) and issues labelled `good first issue`.
