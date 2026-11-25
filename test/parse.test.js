@@ -61,3 +61,8 @@ test('reports errors', () => {
   assert.strictEqual(errors.length, 3);
   assert.deepStrictEqual(errors.map((e) => e.line), [1, 2, 3]);
 });
+
+test('tracks continuation lines of multi-line values', () => {
+  const { continuationLines } = parse('A=1\nKEY="x\n# not a comment\ny"\nB=2');
+  assert.deepStrictEqual([...continuationLines], [3, 4]);
+});

@@ -54,3 +54,9 @@ test('init writes example and refuses to overwrite', () => {
   const again = spawnSync(process.execPath, [BIN, 'init'], { cwd: r.dir, encoding: 'utf8' });
   assert.strictEqual(again.status, 2);
 });
+
+test('reports problems in the example file', () => {
+  const r = run({ '.env': 'A=1', '.env.example': 'A=\nA=' });
+  assert.strictEqual(r.status, 1);
+  assert.match(r.stdout, /Duplicate keys in \.env\.example/);
+});

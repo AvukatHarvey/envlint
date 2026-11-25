@@ -97,7 +97,9 @@ function main() {
   section('Empty values', result.empty, 33);
   section(`Not in ${args.example}`, result.extra, 36);
   section('Duplicate keys', result.duplicates, 35);
-  section('Parse errors', result.errors.map((e) => `line ${e.line}: ${e.message}`), 31);
+  section(`Parse errors in ${args.env}`, result.errors.map((e) => `line ${e.line}: ${e.message}`), 31);
+  section(`Duplicate keys in ${args.example}`, result.exampleDuplicates, 35);
+  section(`Parse errors in ${args.example}`, result.exampleErrors.map((e) => `line ${e.line}: ${e.message}`), 31);
   process.exit(1);
 }
 

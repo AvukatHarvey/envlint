@@ -20,7 +20,7 @@ Not in .env.example (1):
 
 ## Features
 
-- 🔍 Detects **missing**, **empty**, **extra** and **duplicate** keys, plus syntax errors
+- 🔍 Detects **missing**, **empty**, **extra** and **duplicate** keys, plus syntax errors in both files
 - 🚦 CI-friendly exit codes (`0` ok, `1` problems, `2` usage/file error) and `--json` output
 - 🧾 `envlint init` generates `.env.example` from `.env` with all values stripped (comments kept)
 - 🧩 Understands real-world `.env` syntax: `export`, quotes, multi-line values, inline comments, CRLF
@@ -85,7 +85,7 @@ const { parse, check, toExample } = require('envlint');
 const result = check(fs.readFileSync('.env', 'utf8'), fs.readFileSync('.env.example', 'utf8'), {
   optional: ['SENTRY_DSN'],
 });
-// { ok, missing, empty, extra, duplicates, errors }
+// { ok, missing, empty, extra, duplicates, errors, exampleDuplicates, exampleErrors }
 ```
 
 ## Contributing

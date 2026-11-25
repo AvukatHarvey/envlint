@@ -36,9 +36,13 @@ function check(envSrc, exampleSrc, opts = {}) {
 
   const duplicates = env.duplicates.map((d) => d.key);
   const errors = env.errors;
-  const ok = !missing.length && !empty.length && !extra.length && !duplicates.length && !errors.length;
+  const exampleDuplicates = example.duplicates.map((d) => d.key);
+  const exampleErrors = example.errors;
+  const ok =
+    !missing.length && !empty.length && !extra.length && !duplicates.length && !errors.length &&
+    !exampleDuplicates.length && !exampleErrors.length;
 
-  return { ok, missing, empty, extra, duplicates, errors };
+  return { ok, missing, empty, extra, duplicates, errors, exampleDuplicates, exampleErrors };
 }
 
 /**
@@ -48,10 +52,13 @@ function check(envSrc, exampleSrc, opts = {}) {
  */
 function toExample(envSrc) {
   const out = [];
-  const { entries } = parse(envSrc);
+  const { entries, continuationLines } = parse(envSrc);
   const seen = new Set();
   const lines = String(envSrc).replace(/\r\n?/g, '\n').split('\n');
-  for (const raw of lines) {
+  for (let i = 0; i < lines.length; i++) {
+    // Never copy the content of multi-line values: it may contain secrets.
+    if (continuationLines.has(i + 1)) continue;
+    const raw = lines[i];
     const line = raw.trim();
     if (line === '' || line.startsWith('#')) { out.push(raw); continue; }
     const m = /^(?:export\s+)?([A-Za-z_][A-Za-z0-9_.-]*)\s*=/.exec(line);

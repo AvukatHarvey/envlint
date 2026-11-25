@@ -12,12 +12,17 @@
  *   - escape sequences (\n, \r, \t, \", \\) inside double quotes
  *
  * @param {string} src
- * @returns {{ entries: Map<string, {value: string, line: number}>, duplicates: Array<{key: string, line: number}>, errors: Array<{line: number, message: string}> }}
+ * `continuationLines` holds the line numbers that belong to a multi-line value
+ * (or to an unterminated quote), i.e. lines that are value content, not
+ * comments or keys.
+ *
+ * @returns {{ entries: Map<string, {value: string, line: number}>, duplicates: Array<{key: string, line: number}>, errors: Array<{line: number, message: string}>, continuationLines: Set<number> }}
  */
 function parse(src) {
   const entries = new Map();
   const duplicates = [];
   const errors = [];
+  const continuationLines = new Set();
   const lines = String(src).replace(/\r\n?/g, '\n').split('\n');
 
   for (let i = 0; i < lines.length; i++) {
@@ -49,6 +54,7 @@ function parse(src) {
       // multi-line support for " and `
       while (close === -1 && q !== "'" && i + 1 < lines.length) {
         i++;
+        continuationLines.add(i + 1);
         body += '\n' + lines[i];
         close = findClosingQuote(body, q);
       }
@@ -67,7 +73,7 @@ function parse(src) {
     entries.set(key, { value, line: lineNo });
   }
 
-  return { entries, duplicates, errors };
+  return { entries, duplicates, errors, continuationLines };
 }
 
 function findClosingQuote(s, q) {
