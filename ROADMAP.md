@@ -7,7 +7,7 @@ Ideas that would make envlint more useful. Pick one, open an issue to say you're
 - [ ] `--ignore <keys>`: skip keys completely (both missing and extra)
 - [ ] Show line numbers for empty/duplicate keys in the human-readable output
 - [ ] Support `envlint.config.json` / `"envlint"` field in `package.json` for default options
-- [ ] Windows-friendly `npm test` script (avoid shell glob)
+- [x] Windows-friendly `npm test` script (avoid shell glob)
 
 ## Bigger features
 - [ ] Type hints in the example file, e.g. `PORT= # @type number`, `DEBUG= # @type boolean`, `MODE= # @enum dev,prod`

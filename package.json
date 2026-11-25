@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "bin": { "envlint": "bin/envlint.js" },
   "files": ["bin", "src"],
-  "scripts": { "test": "node --test test/*.test.js" },
+  "scripts": { "test": "node --test" },
   "engines": { "node": ">=18" },
   "keywords": ["env", "dotenv", "env-example", "lint", "cli", "ci", "config", "validation"],
   "repository": { "type": "git", "url": "git+https://github.com/AvukatHarvey/envlint.git" },
