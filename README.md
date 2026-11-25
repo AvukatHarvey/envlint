@@ -56,6 +56,7 @@ envlint -e .env.production -x .env.example
 envlint --optional SENTRY_DSN,DEBUG      # these may be missing or empty
 envlint --allow-extra --allow-empty      # only care about missing keys
 envlint --json                           # machine-readable output
+envlint --quiet                         # suppress output; use the exit code
 envlint init                             # create .env.example from .env
 ```
 
@@ -67,6 +68,7 @@ envlint init                             # create .env.example from .env
 | `--allow-extra` | don't fail on keys that aren't in the template |
 | `--allow-empty` | don't fail on empty values |
 | `--json` | print the result as JSON |
+| `-q, --quiet` | print nothing; use only the exit code |
 | `--force` | (`init`) overwrite an existing template |
 | `--no-color` | disable colors (also respects `NO_COLOR`) |
 

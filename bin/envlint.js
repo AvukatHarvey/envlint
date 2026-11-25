@@ -6,6 +6,8 @@ const path = require('path');
 const { check, toExample } = require('../src');
 const pkg = require('../package.json');
 
+let quietMode = false;
+
 const HELP = `envlint v${pkg.version} — keep .env and .env.example in sync
 
 Usage:
@@ -19,6 +21,7 @@ Options:
       --allow-extra         don't fail on keys missing from the example
       --allow-empty         don't fail on keys with empty values
       --json                machine-readable output
+  -q, --quiet               print nothing; use only the exit code
       --force               (init) overwrite an existing example file
       --no-color            disable colors
   -h, --help                show this help
@@ -27,7 +30,8 @@ Options:
 Exit codes: 0 = ok, 1 = problems found, 2 = usage / file error`;
 
 function parseArgs(argv) {
-  const args = { cmd: 'check', env: '.env', example: '.env.example', optional: [], color: process.stdout.isTTY && !process.env.NO_COLOR };
+  quietMode = argv.includes('--quiet') || argv.includes('-q');
+  const args = { cmd: 'check', env: '.env', example: '.env.example', optional: [], quiet: quietMode, color: process.stdout.isTTY && !process.env.NO_COLOR };
   const take = (i) => {
     if (argv[i + 1] === undefined) fail(`missing value for ${argv[i]}`);
     return argv[i + 1];
@@ -42,10 +46,11 @@ function parseArgs(argv) {
       case '--allow-extra': args.allowExtra = true; break;
       case '--allow-empty': args.allowEmpty = true; break;
       case '--json': args.json = true; break;
+      case '-q': case '--quiet': args.quiet = true; break;
       case '--force': args.force = true; break;
       case '--no-color': args.color = false; break;
-      case '-h': case '--help': console.log(HELP); process.exit(0);
-      case '-v': case '--version': console.log(pkg.version); process.exit(0);
+      case '-h': case '--help': if (!quietMode) console.log(HELP); process.exit(0);
+      case '-v': case '--version': if (!quietMode) console.log(pkg.version); process.exit(0);
       default: fail(`unknown argument: ${a}\nRun "envlint --help" for usage.`);
     }
   }
@@ -53,7 +58,7 @@ function parseArgs(argv) {
 }
 
 function fail(msg) {
-  console.error(`envlint: ${msg}`);
+  if (!quietMode) console.error(`envlint: ${msg}`);
   process.exit(2);
 }
 
@@ -72,24 +77,24 @@ function main() {
   if (args.cmd === 'init') {
     if (fs.existsSync(args.example) && !args.force) fail(`${args.example} already exists (use --force to overwrite)`);
     fs.writeFileSync(args.example, toExample(read(args.env)));
-    console.log(c(32, `✓ wrote ${args.example}`));
+    if (!args.quiet) console.log(c(32, `✓ wrote ${args.example}`));
     return;
   }
 
   const result = check(read(args.env), read(args.example), args);
 
   if (args.json) {
-    console.log(JSON.stringify(result, null, 2));
+    if (!args.quiet) console.log(JSON.stringify(result, null, 2));
     process.exit(result.ok ? 0 : 1);
   }
 
   if (result.ok) {
-    console.log(c(32, `✓ ${args.env} matches ${args.example}`));
+    if (!args.quiet) console.log(c(32, `✓ ${args.env} matches ${args.example}`));
     return;
   }
 
   const section = (title, items, color) => {
-    if (!items.length) return;
+    if (args.quiet || !items.length) return;
     console.log(c(color, `${title} (${items.length}):`));
     for (const k of items) console.log(`  - ${k}`);
   };
